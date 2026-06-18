@@ -1,125 +1,152 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #F5F0E8;
-  --cream-dark: #EDE7D9;
-  --ink: #1A1A1A;
-  --ink-mid: #3D3D3D;
-  --ink-light: #6B6B6B;
-  --red: #C41E24;
-  --gold: #B8922A;
-  --rule: #C8BEA8;
+  --paper: #F2EDD7;
+  --paper-dark: #E8E0C4;
+  --ink: #111111;
+  --ink-mid: #333333;
+  --ink-light: #777777;
+  --red: #9B1B1B;
+  --rule: #999;
 }
 
 body {
-  background: var(--cream);
+  background: #D6CEB0;
   color: var(--ink);
   font-family: 'Source Serif 4', Georgia, serif;
 }
 
-/* ── HERO ── */
+/* ── HERO / MASTHEAD ── */
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
-              url('https://images.unsplash.com/photo-1547448415-e9f5b28e570d?auto=format&fit=crop&w=1600&q=80')
-              center/cover no-repeat;
-  color: var(--cream);
+  background: var(--paper);
+  border-bottom: 3px double var(--ink);
   padding: 0;
-  position: relative;
-  overflow: hidden;
 }
 .hero-inner {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 80px 24px 56px;
-  border-left: 1px solid rgba(255,255,255,0.15);
-  border-right: 1px solid rgba(255,255,255,0.15);
-  min-height: 400px;
+  padding: 24px 32px 20px;
+}
+
+/* Верхняя строчка — дата и слоган */
+.hero-topline {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-.hero-kicker {
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 5px 0;
+  margin-bottom: 12px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
+  color: var(--ink-light);
 }
-.hero h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+
+/* Название газеты (готический шрифт) */
+.masthead-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 8px;
 }
-.hero-sub {
-  font-size: 1.05rem;
-  color: rgba(245,240,232,0.75);
+
+/* Подзаголовок под названием */
+.masthead-sub {
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  border-top: 1px solid var(--ink);
+  border-bottom: 3px double var(--ink);
+  padding: 5px 0;
+  margin-bottom: 20px;
+}
+
+/* Фото Кремля под шапкой */
+.hero-photo {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+  filter: grayscale(100%) contrast(1.1);
+  margin-bottom: 10px;
+}
+.hero-photo-caption {
+  font-size: 10px;
+  color: var(--ink-light);
   font-style: italic;
-  font-weight: 300;
-  border-top: 1px solid rgba(255,255,255,0.25);
-  padding-top: 14px;
-  margin-top: 4px;
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: 'IBM Plex Mono', monospace;
 }
-.hero-search-wrap { margin-top: 28px; }
+
+/* Поиск */
+.hero-search-wrap { margin-bottom: 8px; }
 #search {
   width: 100%;
-  max-width: 520px;
-  padding: 10px 16px;
-  background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,255,255,0.35);
-  color: var(--cream);
+  max-width: 480px;
+  display: block;
+  margin: 0 auto;
+  padding: 8px 14px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  color: var(--ink);
   font-family: 'Source Serif 4', serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   outline: none;
   transition: border-color 0.2s;
-  backdrop-filter: blur(4px);
 }
-#search::placeholder { color: rgba(245,240,232,0.5); font-style: italic; }
-#search:focus { border-color: var(--gold); }
+#search:focus { border-color: var(--red); }
+#search::placeholder { color: var(--ink-light); font-style: italic; }
 
 /* ── FILTERS ── */
 #filters {
-  background: var(--ink);
-  border-top: 1px solid #2a2a2a;
-  padding: 0 24px;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+  padding: 0 32px;
   display: flex;
   overflow-x: auto;
   position: sticky;
   top: 0;
   z-index: 100;
   scrollbar-width: none;
+  max-width: 100%;
 }
 #filters::-webkit-scrollbar { display: none; }
 #filters button {
   background: none;
   border: none;
-  color: #888;
+  border-right: 1px solid var(--rule);
+  color: var(--ink-light);
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
+  font-size: 10px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 14px 18px;
+  padding: 10px 16px;
   cursor: pointer;
   white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.15s, background 0.15s;
 }
-#filters button:hover { color: var(--cream); }
-#filters button.active { color: var(--red); border-bottom-color: var(--red); }
+#filters button:first-child { border-left: 1px solid var(--rule); }
+#filters button:hover { background: var(--paper-dark); color: var(--ink); }
+#filters button.active { background: var(--ink); color: var(--paper); }
 
 /* ── TIMELINE ── */
 #timeline {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
-  border-left: 1px solid var(--rule);
-  border-right: 1px solid var(--rule);
+  padding: 40px 32px 80px;
+  background: var(--paper);
   position: relative;
 }
 #timeline::before {
@@ -135,29 +162,29 @@ body {
 /* ── EVENT ITEMS ── */
 .event {
   display: grid;
-  grid-template-columns: 1fr 48px 1fr;
-  margin-bottom: 56px;
+  grid-template-columns: 1fr 40px 1fr;
+  margin-bottom: 48px;
   position: relative;
 }
-.event:nth-child(odd) .card   { grid-column: 1; grid-row: 1; margin-right: 32px; }
+.event:nth-child(odd) .card   { grid-column: 1; grid-row: 1; margin-right: 28px; }
 .event:nth-child(odd) .dot    { grid-column: 2; }
 .event:nth-child(odd) .spacer { grid-column: 3; }
 .event:nth-child(even) .spacer{ grid-column: 1; }
 .event:nth-child(even) .dot   { grid-column: 2; }
-.event:nth-child(even) .card  { grid-column: 3; grid-row: 1; margin-left: 32px; }
+.event:nth-child(even) .card  { grid-column: 3; grid-row: 1; margin-left: 28px; }
 
 .dot {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 6px;
+  padding-top: 8px;
 }
 .dot::after {
   content: '';
-  width: 10px; height: 10px;
-  background: var(--red);
-  border: 2px solid var(--cream);
-  outline: 1px solid var(--red);
+  width: 9px; height: 9px;
+  background: var(--ink);
+  border: 2px solid var(--paper);
+  outline: 1px solid var(--ink);
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -165,25 +192,25 @@ body {
 
 /* ── CARD ── */
 .card {
-  background: #fff;
-  border: 1px solid var(--rule);
-  border-top: 3px solid var(--ink);
-  padding: 20px 22px 18px;
-  transition: border-top-color 0.2s, box-shadow 0.2s;
+  background: var(--paper);
+  border: 1px solid #BBBBAA;
+  border-top: 2px solid var(--ink);
+  padding: 16px 18px 14px;
+  transition: border-top-color 0.2s;
 }
-.card:hover {
-  border-top-color: var(--red);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
+.card:hover { border-top-color: var(--red); }
+
 .card-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
 }
 .date {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--red);
@@ -191,40 +218,38 @@ body {
 }
 .category-pill {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
+  font-size: 8.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-light);
   border: 1px solid var(--rule);
-  padding: 2px 7px;
+  padding: 1px 6px;
 }
 .card h2 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 10px;
+  line-height: 1.3;
+  margin-bottom: 8px;
   color: var(--ink);
 }
 .card img {
   width: 100%;
-  height: 180px;
+  height: 160px;
   object-fit: cover;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: zoom-in;
-  filter: grayscale(20%);
+  filter: grayscale(100%) contrast(1.05);
   transition: filter 0.3s;
 }
-.card img:hover { filter: grayscale(0%); }
+.card img:hover { filter: grayscale(60%); }
 .card p {
-  font-size: 0.9rem;
-  line-height: 1.65;
+  font-size: 0.85rem;
+  line-height: 1.7;
   color: var(--ink-mid);
   font-style: italic;
   font-weight: 300;
-  border-top: 1px solid var(--cream-dark);
-  padding-top: 10px;
 }
 
 /* ── LIGHTBOX ── */
@@ -232,13 +257,13 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(10,10,10,0.95);
+  background: rgba(5,5,5,0.96);
   justify-content: center;
   align-items: center;
   z-index: 999;
   cursor: pointer;
 }
-.lightbox img { max-width: 90%; max-height: 90vh; border: 1px solid #333; }
+.lightbox img { max-width: 90%; max-height: 90vh; }
 
 /* ── EMPTY ── */
 .empty {
@@ -251,10 +276,11 @@ body {
 /* ── MOBILE ── */
 @media (max-width: 700px) {
   #timeline::before { left: 20px; }
-  .event { display: block; padding-left: 40px; position: relative; }
-  .dot { position: absolute; left: 10px; top: 6px; display: block; padding: 0; }
+  .event { display: block; padding-left: 36px; position: relative; }
+  .dot { position: absolute; left: 8px; top: 8px; display: block; padding: 0; }
   .dot::after { display: block; }
   .spacer { display: none; }
   .event:nth-child(odd) .card,
   .event:nth-child(even) .card { grid-column: unset; margin: 0; }
+  .hero-inner { padding: 16px; }
 }
