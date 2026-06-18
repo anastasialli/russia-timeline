@@ -9,7 +9,6 @@
   --ink-mid: #3D3D3D;
   --ink-light: #6B6B6B;
   --red: #C41E24;
-  --red-dark: #9B161B;
   --gold: #B8922A;
   --rule: #C8BEA8;
 }
@@ -22,7 +21,9 @@ body {
 
 /* ── HERO ── */
 .hero {
-  background: var(--ink);
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+              url('https://images.unsplash.com/photo-1547448415-e9f5b28e570d?auto=format&fit=crop&w=1600&q=80')
+              center/cover no-repeat;
   color: var(--cream);
   padding: 0;
   position: relative;
@@ -31,10 +32,10 @@ body {
 .hero-inner {
   max-width: 900px;
   margin: 0 auto;
-  padding: 60px 24px 48px;
-  border-left: 1px solid #333;
-  border-right: 1px solid #333;
-  min-height: 340px;
+  padding: 80px 24px 56px;
+  border-left: 1px solid rgba(255,255,255,0.15);
+  border-right: 1px solid rgba(255,255,255,0.15);
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -54,32 +55,32 @@ body {
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
 .hero-sub {
   font-size: 1.05rem;
-  color: #AAA;
+  color: rgba(245,240,232,0.75);
   font-style: italic;
   font-weight: 300;
-  border-top: 1px solid #444;
+  border-top: 1px solid rgba(255,255,255,0.25);
   padding-top: 14px;
   margin-top: 4px;
 }
-.hero-search-wrap {
-  margin-top: 28px;
-}
+.hero-search-wrap { margin-top: 28px; }
 #search {
   width: 100%;
   max-width: 520px;
   padding: 10px 16px;
-  background: #111;
-  border: 1px solid #555;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.35);
   color: var(--cream);
   font-family: 'Source Serif 4', serif;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s;
+  backdrop-filter: blur(4px);
 }
-#search::placeholder { color: #666; font-style: italic; }
+#search::placeholder { color: rgba(245,240,232,0.5); font-style: italic; }
 #search:focus { border-color: var(--gold); }
 
 /* ── FILTERS ── */
@@ -88,16 +89,13 @@ body {
   border-top: 1px solid #2a2a2a;
   padding: 0 24px;
   display: flex;
-  gap: 0;
   overflow-x: auto;
-  max-width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
   scrollbar-width: none;
 }
 #filters::-webkit-scrollbar { display: none; }
-
 #filters button {
   background: none;
   border: none;
@@ -113,10 +111,7 @@ body {
   transition: color 0.2s, border-color 0.2s;
 }
 #filters button:hover { color: var(--cream); }
-#filters button.active {
-  color: var(--red);
-  border-bottom-color: var(--red);
-}
+#filters button.active { color: var(--red); border-bottom-color: var(--red); }
 
 /* ── TIMELINE ── */
 #timeline {
@@ -141,17 +136,15 @@ body {
 .event {
   display: grid;
   grid-template-columns: 1fr 48px 1fr;
-  gap: 0;
   margin-bottom: 56px;
   position: relative;
 }
-.event:nth-child(odd) .card  { grid-column: 1; grid-row: 1; margin-right: 32px; }
-.event:nth-child(odd) .dot   { grid-column: 2; }
-.event:nth-child(odd) .spacer{ grid-column: 3; }
-
+.event:nth-child(odd) .card   { grid-column: 1; grid-row: 1; margin-right: 32px; }
+.event:nth-child(odd) .dot    { grid-column: 2; }
+.event:nth-child(odd) .spacer { grid-column: 3; }
 .event:nth-child(even) .spacer{ grid-column: 1; }
-.event:nth-child(even) .dot  { grid-column: 2; }
-.event:nth-child(even) .card { grid-column: 3; grid-row: 1; margin-left: 32px; }
+.event:nth-child(even) .dot   { grid-column: 2; }
+.event:nth-child(even) .card  { grid-column: 3; grid-row: 1; margin-left: 32px; }
 
 .dot {
   display: flex;
@@ -177,7 +170,6 @@ body {
   border-top: 3px solid var(--ink);
   padding: 20px 22px 18px;
   transition: border-top-color 0.2s, box-shadow 0.2s;
-  cursor: default;
 }
 .card:hover {
   border-top-color: var(--red);
@@ -246,15 +238,10 @@ body {
   z-index: 999;
   cursor: pointer;
 }
-.lightbox img {
-  max-width: 90%;
-  max-height: 90vh;
-  border: 1px solid #333;
-}
+.lightbox img { max-width: 90%; max-height: 90vh; border: 1px solid #333; }
 
-/* ── EMPTY STATE ── */
+/* ── EMPTY ── */
 .empty {
-  grid-column: 1 / -1;
   text-align: center;
   padding: 64px 0;
   color: var(--ink-light);
@@ -264,23 +251,10 @@ body {
 /* ── MOBILE ── */
 @media (max-width: 700px) {
   #timeline::before { left: 20px; }
-  .event {
-    display: block;
-    padding-left: 40px;
-    position: relative;
-  }
-  .dot {
-    position: absolute;
-    left: 10px;
-    top: 6px;
-    display: block;
-    padding: 0;
-  }
+  .event { display: block; padding-left: 40px; position: relative; }
+  .dot { position: absolute; left: 10px; top: 6px; display: block; padding: 0; }
   .dot::after { display: block; }
   .spacer { display: none; }
   .event:nth-child(odd) .card,
-  .event:nth-child(even) .card {
-    grid-column: unset;
-    margin: 0;
-  }
+  .event:nth-child(even) .card { grid-column: unset; margin: 0; }
 }
