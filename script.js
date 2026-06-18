@@ -1,288 +1,84 @@
+let all = [];
+const tl = document.getElementById('timeline');
+const filtersEl = document.getElementById('filters');
+let activeCategory = null;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
- 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-:root {
-  --cream: #F5F0E8;
-  --cream-dark: #EDE7D9;
-  --ink: #1A1A1A;
-  --ink-mid: #3D3D3D;
-  --ink-light: #6B6B6B;
-  --red: #C41E24;
-  --red-dark: #9B161B;
-  --gold: #B8922A;
-  --rule: #C8BEA8;
+fetch('events.json').then(r => r.json()).then(d => {
+  all = d;
+  render(d);
+
+  const cats = [...new Set(d.map(x => x.category))];
+
+  const btnAll = document.createElement('button');
+  btnAll.textContent = 'Все';
+  btnAll.classList.add('active');
+  btnAll.addEventListener('click', () => {
+    setActive(btnAll);
+    activeCategory = null;
+    render(all);
+  });
+  filtersEl.appendChild(btnAll);
+
+  cats.forEach(c => {
+    const btn = document.createElement('button');
+    btn.textContent = c;
+    btn.addEventListener('click', () => {
+      setActive(btn);
+      activeCategory = c;
+      render(all.filter(x => x.category === c));
+    });
+    filtersEl.appendChild(btn);
+  });
+});
+
+function setActive(btn) {
+  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
- 
-body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'Source Serif 4', Georgia, serif;
-}
- 
-/* ── HERO ── */
-.hero {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-}
-.hero-inner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 60px 24px 48px;
-  border-left: 1px solid #333;
-  border-right: 1px solid #333;
-  min-height: 340px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-.hero-kicker {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-.hero-sub {
-  font-size: 1.05rem;
-  color: #AAA;
-  font-style: italic;
-  font-weight: 300;
-  border-top: 1px solid #444;
-  padding-top: 14px;
-  margin-top: 4px;
-}
-.hero-search-wrap {
-  margin-top: 28px;
-}
-#search {
-  width: 100%;
-  max-width: 520px;
-  padding: 10px 16px;
-  background: #111;
-  border: 1px solid #555;
-  color: var(--cream);
-  font-family: 'Source Serif 4', serif;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-#search::placeholder { color: #666; font-style: italic; }
-#search:focus { border-color: var(--gold); }
- 
-/* ── FILTERS ── */
-#filters {
-  background: var(--ink);
-  border-top: 1px solid #2a2a2a;
-  padding: 0 24px;
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  max-width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  scrollbar-width: none;
-}
-#filters::-webkit-scrollbar { display: none; }
- 
-#filters button {
-  background: none;
-  border: none;
-  color: #888;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 14px 18px;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-#filters button:hover { color: var(--cream); }
-#filters button.active {
-  color: var(--red);
-  border-bottom-color: var(--red);
-}
- 
-/* ── TIMELINE ── */
-#timeline {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
-  border-left: 1px solid var(--rule);
-  border-right: 1px solid var(--rule);
-  position: relative;
-}
-#timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0; bottom: 0;
-  width: 1px;
-  background: var(--rule);
-  transform: translateX(-50%);
-}
- 
-/* ── EVENT ITEMS ── */
-.event {
-  display: grid;
-  grid-template-columns: 1fr 48px 1fr;
-  gap: 0;
-  margin-bottom: 56px;
-  position: relative;
-}
-.event:nth-child(odd) .card  { grid-column: 1; grid-row: 1; margin-right: 32px; }
-.event:nth-child(odd) .dot   { grid-column: 2; }
-.event:nth-child(odd) .spacer{ grid-column: 3; }
- 
-.event:nth-child(even) .spacer{ grid-column: 1; }
-.event:nth-child(even) .dot  { grid-column: 2; }
-.event:nth-child(even) .card { grid-column: 3; grid-row: 1; margin-left: 32px; }
- 
-.dot {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 6px;
-}
-.dot::after {
-  content: '';
-  width: 10px; height: 10px;
-  background: var(--red);
-  border: 2px solid var(--cream);
-  outline: 1px solid var(--red);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.spacer { display: block; }
- 
-/* ── CARD ── */
-.card {
-  background: #fff;
-  border: 1px solid var(--rule);
-  border-top: 3px solid var(--ink);
-  padding: 20px 22px 18px;
-  transition: border-top-color 0.2s, box-shadow 0.2s;
-  cursor: default;
-}
-.card:hover {
-  border-top-color: var(--red);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-.card-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.date {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--red);
-  font-weight: 500;
-}
-.category-pill {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  border: 1px solid var(--rule);
-  padding: 2px 7px;
-}
-.card h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 10px;
-  color: var(--ink);
-}
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-  margin-bottom: 12px;
-  cursor: zoom-in;
-  filter: grayscale(20%);
-  transition: filter 0.3s;
-}
-.card img:hover { filter: grayscale(0%); }
-.card p {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: var(--ink-mid);
-  font-style: italic;
-  font-weight: 300;
-  border-top: 1px solid var(--cream-dark);
-  padding-top: 10px;
-}
- 
-/* ── LIGHTBOX ── */
-.lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(10,10,10,0.95);
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  cursor: pointer;
-}
-.lightbox img {
-  max-width: 90%;
-  max-height: 90vh;
-  border: 1px solid #333;
-}
- 
-/* ── EMPTY STATE ── */
-.empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 64px 0;
-  color: var(--ink-light);
-  font-style: italic;
-}
- 
-/* ── MOBILE ── */
-@media (max-width: 700px) {
-  #timeline::before { left: 20px; }
-  .event {
-    display: block;
-    padding-left: 40px;
-    position: relative;
+
+function render(arr) {
+  tl.innerHTML = '';
+  if (arr.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'empty';
+    empty.textContent = 'Ничего не найдено';
+    tl.appendChild(empty);
+    return;
   }
-  .dot {
-    position: absolute;
-    left: 10px;
-    top: 6px;
-    display: block;
-    padding: 0;
-  }
-  .dot::after { display: block; }
-  .spacer { display: none; }
-  .event:nth-child(odd) .card,
-  .event:nth-child(even) .card {
-    grid-column: unset;
-    margin: 0;
-  }
+  arr.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'event';
+    div.innerHTML = `
+      <div class="card">
+        <div class="card-meta">
+          <span class="date">${e.date}</span>
+          <span class="category-pill">${e.category}</span>
+        </div>
+        <h2>${e.title}</h2>
+        <img src="${e.image}" alt="${e.title}" loading="lazy">
+        <p>${e.description}</p>
+      </div>
+      <div class="dot"></div>
+      <div class="spacer"></div>`;
+    tl.appendChild(div);
+  });
+
+  document.querySelectorAll('.card img').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightbox').style.display = 'flex';
+      document.getElementById('lightboxImg').src = img.src;
+    });
+  });
 }
+
+document.getElementById('search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  const filtered = all.filter(x => JSON.stringify(x).toLowerCase().includes(q));
+  setActive(document.querySelector('#filters button'));
+  render(filtered);
+});
+
+document.getElementById('lightbox').addEventListener('click', () => {
+  document.getElementById('lightbox').style.display = 'none';
+});
  
